@@ -4,4 +4,5 @@ image:
 
 s3: EXO
 s3_path:  sos://backup-postgres
-secret_key: postgres/prod
+db_secret_path: postgres/prod
+s3_secret_path: exoscale/api
