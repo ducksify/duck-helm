@@ -1,0 +1,7 @@
+image:
+  repository: ghcr.io/ducksify/pg_dump-to-s3
+  pullPolicy: Always
+
+s3: EXO
+s3_path:  sos://backup-postgres
+secret_key: postgres/prod
