@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  pg_dump-to-s3:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2022-02-13T09:30:45.278795046Z"
+    description: A Helm chart for Kubernetes
+    digest: d09bdecdf9498d1c1d1524cc368f40bcffb02d9d852a8321e952884567c3dcd3
+    name: pg_dump-to-s3
+    type: application
+    urls:
+    - https://github.com/ducksify/duck-helm/releases/download/pg_dump-to-s3-0.1.1/pg_dump-to-s3-0.1.1.tgz
+    version: 0.1.1
+generated: "2022-02-13T09:30:45.278802646Z"
