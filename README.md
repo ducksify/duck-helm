@@ -2,7 +2,7 @@
 
 Automatically dump and archive PostgreSQL backups to Amazon S3 or Exoscale S3 from kubernetes Pod
 
-trigger1
+
 
 ## Restore a backup
 
