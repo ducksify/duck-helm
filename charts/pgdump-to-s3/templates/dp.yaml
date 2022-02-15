@@ -20,6 +20,10 @@ spec:
       labels:
         {{- include "pg_dump-to-s3.selectorLabels" . | nindent 8 }}
     spec:
+      volumes:
+        - name: config
+          secret:
+            secretName: {{ include "pg_dump-to-s3.fullname" . }}-s3
       imagePullSecrets:
         - name: {{ include "pg_dump-to-s3.fullname" . }}-ghcr
       containers:
@@ -28,10 +32,9 @@ spec:
           imagePullPolicy: {{.Values.image.pullPolicy}}
           envFrom:
             - secretRef:
-                name:  {{ include "pg_dump-to-s3.fullname" . }}
-            - configMapRef:
-                name:  {{ include "pg_dump-to-s3.fullname" . }}
-
-
+                name:  {{ include "pg_dump-to-s3.fullname" . }}-db
+          volumeMounts:
+            - mountPath: /config
+              name: config
 
 
