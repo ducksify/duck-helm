@@ -1,0 +1,12 @@
+apiVersion: v2
+name: postgres-backup-local
+description: Backup postgres database on kubernetes persistent volume claim
+
+type: application
+
+version: 0.1.0
+
+appVersion: v0.1.0
+
+
+
