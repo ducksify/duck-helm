@@ -36,4 +36,15 @@ entries:
     urls:
     - https://github.com/ducksify/duck-helm/releases/download/pgdump-to-s3-0.1.1/pgdump-to-s3-0.1.1.tgz
     version: 0.1.1
-generated: "2022-02-15T13:01:58.118083394Z"
+  postgres-backup-local:
+  - apiVersion: v2
+    appVersion: v0.1.0
+    created: "2022-03-05T10:25:48.780709794Z"
+    description: Backup postgres database on kubernetes persistent volume claim
+    digest: ea16ac55afa73d626c13ec6cb4a84ce8a0c0518cf4da5e764b0e9be1877713a4
+    name: postgres-backup-local
+    type: application
+    urls:
+    - https://github.com/ducksify/duck-helm/releases/download/postgres-backup-local-0.1.0/postgres-backup-local-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-03-05T10:25:48.781062498Z"
