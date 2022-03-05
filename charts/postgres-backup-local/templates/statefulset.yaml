@@ -18,12 +18,16 @@ spec:
         - name: {{ include "postgres-backup-local.fullname" . }}
           image: {{ .Values.image.repository }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 999
           livenessProbe:
             httpGet:
               port: 8080
           volumeMounts:
             - name:  {{ include "postgres-backup-local.fullname" . }}
               mountPath: {{ .Values.persistence.mountPath  }}
+
           {{- if .Values.persistence.subPath }}
               subPath: .Values.persistence.subPath
           {{- end }}
