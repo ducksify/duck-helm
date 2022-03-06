@@ -14,14 +14,14 @@ spec:
       labels:
         {{- include "postgres-backup-local.labels" . | nindent 8 }}
     spec:
+      securityContext:
+        fsGroup: 999
+        runAsUser: 999
+        runAsNonRoot: true
       containers:
         - name: {{ include "postgres-backup-local.fullname" . }}
           image: {{ .Values.image.repository }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 999
-            fsGroup: 999
           livenessProbe:
             httpGet:
               port: 8080
