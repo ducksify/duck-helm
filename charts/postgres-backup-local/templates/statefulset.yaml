@@ -8,7 +8,6 @@ spec:
        {{- include "postgres-backup-local.selectorLabels" . | nindent 6 }}
   serviceName: {{ include "postgres-backup-local.fullname" . }}
   replicas: {{ .Values.replicas }}
-  minReadySeconds: 10
   template:
     metadata:
       labels:
