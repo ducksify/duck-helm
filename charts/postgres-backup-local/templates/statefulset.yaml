@@ -36,7 +36,11 @@ spec:
             - configMapRef:
                 name: {{ include "postgres-backup-local.fullname" . }}
             - secretRef:
+                 {{- if  not .Values.auth.existingPasswordSecret }}
                 name: {{ include "postgres-backup-local.fullname" . }}
+                {{ else }}
+                name: {{- .Values.auth.existingPasswordSecret  }}
+                {{ end }}
       volumes:
   {{- if not .Values.persistence.enabled }}
         - name:  {{ include "postgres-backup-local.fullname" . }}
