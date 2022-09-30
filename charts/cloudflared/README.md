@@ -5,8 +5,8 @@ A tunneling daemon that proxies traffic from the Cloudflare network to your orig
 ## TL;DR
 
 ```console
-helm repo add kubitodev https://charts.kubito.dev
-helm install cloudflared kubitodev/cloudflared
+helm repo add duck-helm https://ducksify.github.io/duck-helm
+helm install cloudflared duck-helm/cloudflared
 ```
 
 ## Introduction
@@ -24,7 +24,7 @@ Cloudflare Tunnel provides you with a secure way to connect your resources to Cl
 To install the chart with the release name `cloudflared`:
 
 ```console
-helm install cloudflared kubitodev/cloudflared
+helm install cloudflared duck-helm/cloudflared
 ```
 
 The command deploys cloudflared on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -80,10 +80,10 @@ helm install example \
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-helm install example -f values.yaml kubitodev/example
+helm install example -f values.yaml duck-helm/example
 ```
 
-> **Tip**: You can use the default [values.yaml](values.yaml)
+> **Note**: You can use the default [values.yaml](values.yaml)
 
 ## Configuration and installation details
 
