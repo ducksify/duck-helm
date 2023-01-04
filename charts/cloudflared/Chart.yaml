@@ -4,7 +4,7 @@ maintainers:
     url: https://ducksify.com
 apiVersion: v2
 appVersion: 2022.12.1
-version: 1.0.4
+version: 1.0.5
 description: Ducksify Cloudflared (Argo Tunnel) Helm Chart
 home: https://github.com/ducksify/duck-helm/tree/main/charts/cloudflared
 icon: https://ducksify.github.io/duck-helm/ducksify_round.png
