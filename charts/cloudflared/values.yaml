@@ -9,9 +9,8 @@
 ##
 image:
   repository: cloudflare/cloudflared
-  tag: "2022.9.1"
+  tag: "2022.12.1"
   imagePullPolicy: IfNotPresent
-  arch: ""
 
 ## @section Deployment parameters
 
