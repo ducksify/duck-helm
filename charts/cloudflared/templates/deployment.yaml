@@ -12,11 +12,6 @@ spec:
     metadata:
       labels:
         app: {{ .Release.Name }}
-      annotations:
-        checksum/tunnel-id: {{ sha256sum .Values.tunnelID }}
-        checksum/ingress: {{ .Values.ingress | toJson | sha256sum }}
-        checksum/auth: {{ .Values.auth | toJson | sha256sum }}
-        checksum/warp-routing: {{ .Values.warpRouting | toJson | sha256sum }}
     spec:
       containers:
         - args:
@@ -28,38 +23,17 @@ spec:
         {{- end }}
             - run
           name: {{ .Release.Name }}
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          image: {{ .Values.image.repository }}:{{ .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.image.imagePullPolicy }}
-        {{- if ne .Values.auth.tunnelToken "" }}
           env:
           - name: TUNNEL_TOKEN
             valueFrom:
               secretKeyRef:
-                name: tunnel-secret
+                name: {{ .Values.existingSecret | default  "tunnel-secret"}}
                 key: token
-        {{- else }}
-          volumeMounts:
-            - mountPath: /etc/cloudflared/tunnel-config.json
-              name: tunnel-secret-volume
-              subPath: tunnel-config.json
-            - mountPath: /etc/cloudflared/config.yaml
-              name: cloudflared-config-volume
-              subPath: config.yaml
-        {{- end }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        - name: {{ default "tunnel-secret" .Values.existingSecret }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
-      {{- if eq .Values.auth.token "" }}
-      volumes:
-        - name: tunnel-secret-volume
-          secret:
-            defaultMode: 420
-            optional: false
-            secretName: {{ default "tunnel-secret" .Values.existingSecret }}
-        - name: cloudflared-config-volume
-          configMap:
-            defaultMode: 420
-            name: {{ .Release.Name }}
-            optional: false
-      {{- end }}

@@ -9,33 +9,18 @@
 ##
 image:
   repository: cloudflare/cloudflared
-  tag: "2022.12.1"
   imagePullPolicy: IfNotPresent
 
-## @section Deployment parameters
-
+## If defined, uses a Secret to pull an image from a private Docker registry or repository
+imagePullSecrets: []
+## - name: test
 ## @param replicaCount The number of replicas to deploy.
 ##
 replicaCount: 3
-## @param tunnelID The Argo Tunnel ID you created. Check the configuration section for details.
-##
-tunnelID: ""
-## @param auth.accountTag The Argo tunnel account tag.
-## @param auth.tunnelName The Argo tunnel name.
-## @param auth.tunnelSecret The Argo tunnel secret.
-## @param auth.tunnelToken The Argo tunnel jwt token for managed tunnel.
-##
 auth:
-  accountTag: ""
-  tunnelName: ""
-  tunnelSecret: ""
   tunnelToken: ""
 ## @param existingSecret The name of an existing secret containing the Argo tunnel settings.
 ##
 existingSecret: ""
 ## @param warpRouting Whether to enable WARP traffic routing to local subnets.
 ##
-warpRouting: false
-## @param ingress The ingress settings to apply. Check the configuration section for examples.
-##
-ingress: []
