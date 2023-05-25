@@ -2,6 +2,28 @@ apiVersion: v1
 entries:
   cloudflared:
   - apiVersion: v2
+    appVersion: 2023.5.1
+    created: "2023-05-25T08:26:51.908112712Z"
+    description: Ducksify Cloudflared (Argo Tunnel) Helm Chart
+    digest: 17c8c1ea254ef2794ef59a53c1800278f5fef2de796e4590643a499fbfb5caf7
+    home: https://github.com/ducksify/duck-helm/tree/main/charts/cloudflared
+    icon: https://ducksify.github.io/duck-helm/ducksify_round.png
+    keywords:
+    - kubernetes
+    - cloudflare
+    - cloudflared
+    - argo
+    - tunnel
+    maintainers:
+    - name: ducksify
+      url: https://ducksify.com
+    name: cloudflared
+    sources:
+    - https://github.com/cloudflare/cloudflared
+    urls:
+    - https://github.com/ducksify/duck-helm/releases/download/cloudflared-1.0.7/cloudflared-1.0.7.tgz
+    version: 1.0.7
+  - apiVersion: v2
     appVersion: 2023.4.2
     created: "2023-04-25T12:54:43.826614566Z"
     description: Ducksify Cloudflared (Argo Tunnel) Helm Chart
@@ -223,4 +245,4 @@ entries:
     urls:
     - https://github.com/ducksify/duck-helm/releases/download/postgres-backup-local-0.1.0/postgres-backup-local-0.1.0.tgz
     version: 0.1.0
-generated: "2023-04-25T12:54:43.826716466Z"
+generated: "2023-05-25T08:26:51.908146914Z"
