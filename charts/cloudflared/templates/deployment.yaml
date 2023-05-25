@@ -17,10 +17,6 @@ spec:
         - args:
             - tunnel
             - --no-autoupdate
-        {{- if eq .Values.auth.tunnelToken "" }}
-            - --config
-            - /etc/cloudflared/config.yaml
-        {{- end }}
             - run
           name: {{ .Release.Name }}
           image: {{ .Values.image.repository }}:{{ .Chart.AppVersion }}
