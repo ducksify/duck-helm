@@ -48,9 +48,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                    | Description                                   | Value                    |
 |-------------------------|-----------------------------------------------|--------------------------|
 | `image.repository`      | The Docker repository to pull the image from. | `cloudflare/cloudflared` |
-| `image.tag`             | The image tag to use.                         | `2022.7.1`               |
 | `image.imagePullPolicy` | The logic of image pulling.                   | `IfNotPresent`           |
-| `image.arch`            | The logic of cpu architecture.                | `amd64|arm64`            |
 
 
 ### Deployment parameters
@@ -58,14 +56,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                | Description                                                                  | Value   |
 |---------------------|------------------------------------------------------------------------------| ------- |
 | `replicaCount`      | The number of replicas to deploy.                                            | `3`     |
-| `tunnelID`          | The Argo Tunnel ID you created. Check the configuration section for details. | `""`    |
-| `auth.accountTag`   | The Argo tunnel account tag.                                                 | `""`    |
-| `auth.tunnelName`   | The Argo tunnel name.                                                        | `""`    |
-| `auth.tunnelSecret` | The Argo tunnel secret.                                                      | `""`    |
 | `auth.tunnelToken`  | The Argo tunnel jwt token.                                                   | `""`    |
 | `existingSecret`    | The name of an existing secret containing the Argo tunnel settings.          | `""`    |
-| `warpRouting`       | Whether to enable WARP traffic routing to local subnets.                     | `false` |
-| `ingress`           | The ingress settings to apply. Check the configuration section for examples. | `[]`    |
 
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
@@ -95,52 +87,9 @@ Create tunnel from UI, then provide jwt token during helm installation
 helm install cloudflared --set auth.tunnelToken=ey.....
 ```
 
-### Getting the Argo Tunnel ID
-> **Warning**: This step is not necessary if you choosed the managed method
-
-- Start by downloading and installing the lightweight Cloudflare Tunnel daemon, `cloudflared`. You can find it [here](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/).
-
-- Once installed, you can use the tunnel login command in `cloudflared` to obtain a certificate:
-
-```bash
-cloudflared tunnel login
-```
-
-- Create the tunnel with:
-
-```bash
-cloudflared tunnel create example-tunnel
-```
-
-- Associate your tunnel with a CNAME DNS Record
-
-```bash
-cloudflared tunnel route dns example-tunnel tunnel.example.com
-```
-
-- The tunnel configuration can be found in `~/.cloudflared/<TUNNEL_ID>.json`. You will need it for creating a secret/configmap when deploying the Cloudflared instance on your cluster.
-
-Now, when you want to create a new subdomain, just point it as a CNAME to the tunnel record, and it will be routed automatically!
-
-For more information, check the [official guide](https://developers.cloudflare.com/cloudflare-one/tutorials/many-cfd-one-tunnel/).
-
-### Setting up the Argo Tunnel ingress options with Traefik
-
-To use the tunnel with Traefik, you need to configure the ingress settings. As cloudflared works with CNAMEs, you want to set a wildcard hostname for the service, and set the origin request setting to be the root domain that you are configuring this for. Also, you need to point the service to the secure port (443) of the Traefik load balancer service. Here is an example configuration:
-
-```yaml
-cloudflared:
-  ingress:
-    - hostname: "*.example.com"
-      service: https://traefik.traefik-system.svc.cluster.local:443
-      originRequest:
-        originServerName: example.com
-    - service: http_status:404
-```
-
 ## License
 
-Copyright &copy; 2022 Kubito
+Copyright &copy; 2023 Ducksify
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
