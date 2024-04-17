@@ -16,7 +16,7 @@ imagePullSecrets: []
 ## - name: test
 ## @param replicaCount The number of replicas to deploy.
 ##
-replicaCount: 3
+replicaCount: 2
 auth:
   tunnelToken: ""
 ## @param existingSecret The name of an existing secret containing the Argo tunnel settings.
