@@ -221,6 +221,24 @@ entries:
     urls:
     - https://github.com/ducksify/duck-helm/releases/download/cloudflared-1.0.2/cloudflared-1.0.2.tgz
     version: 1.0.2
+  manifest:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2024-06-05T04:28:32.389341026Z"
+    description: create generic kubernetes resources, for use in terraform manifest,
+      kubernetes_manifest as some limitations, as the cluster must be present
+    digest: 5bbd804eb72a0ba25405a007e8c7972ca38afd97fc09b230dff6ef4274cec63b
+    home: https://github.com/ducksify/duck-helm/tree/main/charts/manifest
+    icon: https://ducksify.github.io/duck-helm/ducksify_round.png
+    keywords:
+    - kubernetes
+    maintainers:
+    - name: ducksify
+      url: https://ducksify.com
+    name: manifest
+    urls:
+    - https://github.com/ducksify/duck-helm/releases/download/manifest-0.1.0/manifest-0.1.0.tgz
+    version: 0.1.0
   pgdump-to-s3:
   - apiVersion: v2
     appVersion: 0.1.4
@@ -333,4 +351,4 @@ entries:
     urls:
     - https://github.com/ducksify/duck-helm/releases/download/postgres-backup-local-0.1.0/postgres-backup-local-0.1.0.tgz
     version: 0.1.0
-generated: "2024-05-14T14:49:53.813969141Z"
+generated: "2024-06-05T04:28:32.389388545Z"
