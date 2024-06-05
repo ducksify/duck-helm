@@ -1,0 +1,13 @@
+name: manifest
+maintainers:
+  - name: ducksify
+    url: https://ducksify.com
+apiVersion: v2
+appVersion: 0.1.0
+version: 0.1.0
+description: create generic kubernetes resources, for use in terraform manifest, 
+  kubernetes_manifest as some limitations, as the cluster must be present
+home: https://github.com/ducksify/duck-helm/tree/main/charts/manifest
+icon: https://ducksify.github.io/duck-helm/ducksify_round.png
+keywords:
+  - kubernetes
