@@ -22,5 +22,6 @@ auth:
 ## @param existingSecret The name of an existing secret containing the Argo tunnel settings.
 ##
 existingSecret: ""
-## @param warpRouting Whether to enable WARP traffic routing to local subnets.
+## @param nodeSelector stick pods to specifics nodes.
 ##
+nodeSelector: 

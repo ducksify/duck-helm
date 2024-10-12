@@ -37,3 +37,7 @@ spec:
       {{- end }}
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
+      {{- with .Values.nodeSelector  }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
