@@ -17,11 +17,32 @@ imagePullSecrets: []
 ## @param replicaCount The number of replicas to deploy.
 ##
 replicaCount: 2
+
+## @param mode Run mode: "tunnel" (Argo Tunnel) or "access" (Cloudflare Access proxy).
+##
+mode: access
+
 auth:
+  ## Tunnel mode: token from dashboard (quick tunnel or named tunnel).
   tunnelToken: ""
-## @param existingSecret The name of an existing secret containing the Argo tunnel settings.
+  ## Access mode: service token from Zero Trust dashboard (Access > Service Auth).
+  accessServiceTokenId: ""
+  accessServiceTokenSecret: ""
+
+## @param existingSecret The name of an existing secret. Tunnel mode expects key "token". Access mode expects keys "serviceTokenId" and "serviceTokenSecret".
 ##
 existingSecret: ""
+
+## Access mode only (when mode: access)
+##
+access:
+  ## Subcommand: "ssh" or "tcp"
+  type: tcp
+  ## Hostname of the Access application (e.g. hostname.example.com).
+  hostname: ""
+  ## Local listen address to proxy (e.g. 0.0.0.0:2222 for SSH, 0.0.0.0:8080 for TCP).
+  url: ""
+
 ## @param nodeSelector stick pods to specifics nodes.
 ##
 nodeSelector: 

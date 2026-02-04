@@ -11,13 +11,14 @@ helm install cloudflared duck-helm/cloudflared
 
 ## Introduction
 
-Cloudflare Tunnel provides you with a secure way to connect your resources to Cloudflare without a publicly routable IP address. With Tunnel, you do not send traffic to an external IP — instead, a lightweight daemon in your infrastructure (cloudflared) creates outbound-only connections to Cloudflare’s edge. Cloudflare Tunnel can connect HTTP web servers, SSH servers, remote desktops, and other protocols safely to Cloudflare. This way, your origins can serve traffic through Cloudflare without being vulnerable to attacks that bypass Cloudflare.
+Cloudflare Tunnel provides you with a secure way to connect your resources to Cloudflare without a publicly routable IP address. With Tunnel, you do not send traffic to an external IP — instead, a lightweight daemon in your infrastructure (cloudflared) creates outbound-only connections to Cloudflare’s edge. This chart runs **cloudflared** in one of two modes: **Tunnel mode** (default) — Argo Tunnel; **Access mode** — `cloudflared access ssh` or `cloudflared access tcp` behind Cloudflare Access with a service token.
 
 ## Prerequisites
 
 - Kubernetes 1.12+
 - Helm 3.2.0+
-- Argo Tunnel ID generated
+- **Tunnel mode**: Argo Tunnel token (from Cloudflare Zero Trust dashboard).
+- **Access mode**: Access application hostname and a [service token](https://developers.cloudflare.com/cloudflare-one/access-controls/service-credentials/service-tokens/) (Zero Trust > Access > Service Auth).
 
 ## Installing the Chart
 
@@ -50,42 +51,68 @@ The command removes all the Kubernetes components associated with the chart and 
 | `image.repository`      | The Docker repository to pull the image from. | `cloudflare/cloudflared` |
 | `image.imagePullPolicy` | The logic of image pulling.                   | `IfNotPresent`           |
 
-
 ### Deployment parameters
 
-| Name                | Description                                                                  | Value   |
-|---------------------|------------------------------------------------------------------------------| ------- |
-| `replicaCount`      | The number of replicas to deploy.                                            | `3`     |
-| `auth.tunnelToken`  | The Argo tunnel jwt token.                                                   | `""`    |
-| `existingSecret`    | The name of an existing secret containing the Argo tunnel settings.          | `""`    |
+| Name                               | Description                                                                 | Value    |
+|------------------------------------|-----------------------------------------------------------------------------|----------|
+| `mode`                             | Run mode: `tunnel` or `access`                                             | `tunnel` |
+| `replicaCount`                     | Number of replicas                                                         | `2`      |
+| `auth.tunnelToken`                 | Argo tunnel JWT token (tunnel mode only)                                   | `""`     |
+| `auth.accessServiceTokenId`        | Access service token ID (access mode only)                                | `""`     |
+| `auth.accessServiceTokenSecret`     | Access service token secret (access mode only)                             | `""`     |
+| `existingSecret`                   | Use existing secret: tunnel key `token`; access keys `serviceTokenId`, `serviceTokenSecret` | `""` |
+| `access.type`                      | Access subcommand: `ssh` or `tcp` (access mode only)                       | `ssh`    |
+| `access.hostname`                  | Access application hostname (e.g. `hostname.example.com`)                  | `""`     |
+| `access.url`                       | Local listen address to proxy (e.g. `0.0.0.0:2222` or `0.0.0.0:8080`)      | `""`     |
+| `nodeSelector`                     | Node selector for pod placement                                            | `{}`     |
 
-
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
-
-```console
-helm install example \
-  --set user=example \
-  --set password=example \
-    kubitodev/example
-```
-
-Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
+Specify parameters with `--set key=value` or use a custom values file:
 
 ```console
-helm install example -f values.yaml duck-helm/example
+helm install cloudflared duck-helm/cloudflared -f my-values.yaml
 ```
 
-> **Note**: You can use the default [values.yaml](values.yaml)
+See [values.yaml](values.yaml) for the full default configuration.
 
-## Configuration and installation details
+## Configuration
 
-### Cloudflared the managed way
-If you choose to install cloudflared by managed way, no configuration is necessary
+### Tunnel mode (default)
 
-Create tunnel from UI, then provide jwt token during helm installation
+Create a tunnel in the Cloudflare Zero Trust dashboard, then install with the tunnel token:
+
 ```console
-helm install cloudflared --set auth.tunnelToken=ey.....
+helm install cloudflared duck-helm/cloudflared --set auth.tunnelToken=eyJ...
 ```
+
+### Access mode (SSH or TCP)
+
+Expose SSH or TCP behind Cloudflare Access using a [service token](https://developers.cloudflare.com/cloudflare-one/access-controls/service-credentials/service-tokens/). The chart runs `cloudflared access ssh` or `cloudflared access tcp` with your hostname, URL, and token.
+
+**SSH** (e.g. `cloudflared access ssh --hostname ssh.example.com --url 0.0.0.0:2222`):
+
+```console
+helm install cloudflared duck-helm/cloudflared \
+  --set mode=access \
+  --set access.type=ssh \
+  --set access.hostname=ssh.example.com \
+  --set access.url=0.0.0.0:2222 \
+  --set auth.accessServiceTokenId=yyyy.access \
+  --set auth.accessServiceTokenSecret=xxxxx
+```
+
+**TCP** (generic TCP proxy):
+
+```console
+helm install cloudflared duck-helm/cloudflared \
+  --set mode=access \
+  --set access.type=tcp \
+  --set access.hostname=tcp.example.com \
+  --set access.url=0.0.0.0:8080 \
+  --set auth.accessServiceTokenId=yyyy.access \
+  --set auth.accessServiceTokenSecret=xxxxx
+```
+
+For production, store credentials in a Secret with keys `serviceTokenId` and `serviceTokenSecret`, then set `existingSecret` to that secret name instead of passing token values on the command line.
 
 ## License
 
