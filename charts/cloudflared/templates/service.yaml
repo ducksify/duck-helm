@@ -1,0 +1,20 @@
+{{- if eq .Values.mode "access" -}}
+{{- $urlParts := split ":" .Values.access.url -}}
+{{- $port := $urlParts._1 | int -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Release.Name }}
+  ports:
+    - name: {{ .Values.access.type }}
+      port: {{ $port }}
+      targetPort: {{ $port }}
+      protocol: TCP
+{{- end }}

@@ -33,6 +33,7 @@ spec:
                   name: {{ .Values.existingSecret | default "tunnel-secret" }}
                   key: token
           {{- else if eq .Values.mode "access" }}
+          {{- $urlParts := split ":" .Values.access.url }}
           args:
             - access
             - {{ .Values.access.type }}
@@ -40,6 +41,10 @@ spec:
             - {{ .Values.access.hostname | quote }}
             - --url
             - {{ .Values.access.url | quote }}
+          ports:
+            - name: {{ .Values.access.type }}
+              containerPort: {{ $urlParts._1 | int }}
+              protocol: TCP
           env:
             - name: TUNNEL_SERVICE_TOKEN_ID
               valueFrom:
