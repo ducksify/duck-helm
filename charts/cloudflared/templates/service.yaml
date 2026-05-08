@@ -1,6 +1,6 @@
 {{- if eq .Values.mode "access" -}}
 {{- $urlParts := split ":" .Values.access.url -}}
-{{- $port := $urlParts._1 | int -}}
+{{- $port := $urlParts._2 | int -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -18,3 +18,4 @@ spec:
       targetPort: {{ $port }}
       protocol: TCP
 {{- end }}
+ 
