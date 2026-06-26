@@ -45,4 +45,14 @@ access:
 
 ## @param nodeSelector stick pods to specifics nodes.
 ##
-nodeSelector: 
+nodeSelector:
+
+## @section PodDisruptionBudget parameters
+##
+podDisruptionBudget:
+  ## @param podDisruptionBudget.enabled Enable a PodDisruptionBudget for the deployment.
+  enabled: false
+  ## @param podDisruptionBudget.minAvailable Minimum pods that must remain available during voluntary disruptions.
+  minAvailable: 1
+  ## @param podDisruptionBudget.maxUnavailable Maximum pods that may be unavailable during voluntary disruptions.
+  # maxUnavailable: 1
